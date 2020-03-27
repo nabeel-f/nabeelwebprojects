@@ -1,0 +1,121 @@
+<link href="https://cdnjs.cloudflare.com/ajax/libs/bulma/0.7.5/css/bulma.min.css" rel="stylesheet" />
+    <link href="api-test.css" rel="stylesheet" />
+    <nav class="navbar is-primary" role="navigation" aria-label="main navigation">
+        <div class="navbar-brand">
+            <a role="button" class="navbar-burger burger" aria-label="menu" aria-expanded="false">
+                <span aria-hidden="true"></span>
+                <span aria-hidden="true"></span>
+                <span aria-hidden="true"></span>
+            </a>
+        </div>
+        <div class="navbar-menu">
+            <div class="navbar-start">
+                <a class="navbar-item">
+                    Home
+                </a>
+                <a class="navbar-item">
+                    Appointments
+                </a>
+                <a class="navbar-item">
+                    Clients
+                </a>
+                <a class="navbar-item">
+                    Employees
+                </a>
+            </div>
+            <div class="navbar-end">
+                <a class="navbar-item">Sign Out</a>
+            </div>
+        </div>
+    </nav>
+    <section class="section">
+        <div class="container">
+            <h1 class="title">Employees</h1>
+
+            <!-- Employee List -->
+            <article id="employees"></article>
+
+            <!-- Add Employee Button -->
+            <div class="has-text-right">
+                <a onclick="openModal()" class="button is-link btn-add-employee">
+                    <span class="icon is-medium">
+                        <i class="fas fa-plus"></i>
+                    </span>
+                    <span>Add Employee</span>
+                </a>
+            </div>
+
+            <!-- Add employee modal -->
+            <div class="modal" id="modal">
+                <div class="modal-background"></div>
+                <div class="modal-content">
+                    <div class="box">
+                        <div class="add-emp-form">
+                            <iframe src="api-test-form.html" style="width:100%; height:300px;border:none;"></iframe>
+                        </div>
+                    </div>
+                </div>
+                <button class="modal-close is-large" onclick="closeModal()" aria-label="close"></button>
+            </div>
+        </div>
+    </section>
+    <script src="https://use.fontawesome.com/releases/v5.3.1/js/all.js"></script>
+    <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+    <script>
+            var obj,
+                xmlhttp,
+                myObj,
+                x,
+                txt = "";
+
+            dbParam = JSON.stringify(obj);
+
+            xmlhttp = new XMLHttpRequest();
+            xmlhttp.onreadystatechange = function () {
+
+                if (this.readyState == 4 && this.status == 200) {
+
+                    myObj = JSON.parse(this.responseText);
+                    txt += "<div class='employee-box-container'>"
+
+                    for (x in myObj) {
+
+                        var photo = myObj[x].photoURL;
+                        var nameFirst = myObj[x].name.first;
+                        var nameLast = myObj[x].name.last;
+                        var title = myObj[x].jobTitle
+
+                        txt += "<div class='employee-box'><div class='employee-box-img' style='background-image:url(" + photo + ")'></div><div class='employee-box-detail'><span>" + nameFirst + " " + nameLast + "</span><span>" + title + "</span></div></div>";
+                    }
+
+                    txt += "</div>"
+
+                    document.getElementById("employees").innerHTML = txt;
+
+                    $('.employee-box-img').each(function () {
+                        var nullImg = $(this).attr('style');
+                        var nullValue = 'background-image:url(null)'
+                        if (nullImg === nullValue) {
+                            $(this).parent().hide()
+                        }
+                    })
+                }
+
+            };
+
+            xmlhttp.open("GET", "download.json", true);
+            xmlhttp.setRequestHeader("Content-type", "application/json");
+            xmlhttp.send("x=" + dbParam);
+
+            function openModal() {
+                var addEmpBtn = document.getElementById("modal");
+                addEmpBtn.classList.add("is-active");
+            }
+
+            function closeModal() {
+                var addEmpBtn = document.getElementById("modal");
+                addEmpBtn.classList.remove("is-active");
+            }          
+
+
+    </script>
