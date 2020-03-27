@@ -1,0 +1,64 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <title></title>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+    <link href="api-test.css" rel="stylesheet" />
+</head>
+<body>
+    <form>
+        <div class="employee-box-container">
+            <div class="employee-box employee-box-edit">
+                <div class="employee-box-img"></div>
+                <div class="employee-box-detail">
+                    <span>
+                        <label>
+                            <input placeholder="Enter First Name" required type="text" id="fname" name="fname" />
+                        </label>
+                        <label>
+                            <input placeholder="Enter Last Name" required type="text" id="lname" name="lname" />
+                        </label>
+                    </span>
+                    <span>
+                        <label>
+                            <input placeholder="Enter Title" required type="text" id="title" name="title" />
+                        </label>
+                        <br />
+                        <button type="submit" class="btn-submit" id="submitEmpBtn">Save</button>
+                        <button onclick="resetbtn()" id="resetbtn" class="btn-submit">Reset</button>
+                    </span>
+                </div>
+            </div>
+        </div>
+        <div class="form-results">
+            <p><strong>Your Entered</strong></p>
+        </div>
+        <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+        <script>
+            $('#submitEmpBtn').click(function () {
+                var savefname = document.getElementById('fname').value;
+                var savelname = document.getElementById('lname').value;
+                var savetitle = document.getElementById('title').value;
+
+                if (savefname !== "" && savelname !== "" && savetitle !== "") {
+                    $('.form-results').append(
+                        'First Name: ' + savefname + '<br />' +
+                        'Last Name: ' + savelname + '<br />' +
+                        'Title: ' + savetitle
+                        );
+                    document.getElementById("submitEmpBtn").disabled = true;
+                    return false;
+                    document.getElementById('fname').value = '';
+                    document.getElementById('lname').value = '';
+                    document.getElementById('title').value = '';                    
+                }                
+            })
+            function resetbtn() {
+                document.getElementById("submitEmpBtn").disabled = false;
+                return false;                
+            }      
+        </script>
+    </form>
+</body>
+</html>
